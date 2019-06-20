@@ -8,7 +8,7 @@ services:
       - INFLUXDB_ADMIN_USER=admin
       - INFLUXDB_ADMIN_PASSWORD=admin
     volumes:
-      - ./influxdb:/var/lib/influxdb
+      - /srv/docker/influxdb:/var/lib/influxdb
   garie-lighthouse:
     image: "garie/lighthouse"
     ports:
@@ -16,9 +16,9 @@ services:
     environment:
       - HOST=influxdb
     volumes:
-      - ./garie-config.json:/usr/src/garie-lighthouse/config.json
-      - ./plugins/garie-lighthouse/reports:/usr/src/garie-lighthouse/reports
-      - ./plugins/garie-lighthouse/logs:/usr/src/garie-lighthouse/logs
+      - /srv/docker/garie-config.json:/usr/src/garie-lighthouse/config.json
+      - /srv/docker/plugins/garie-lighthouse/reports:/usr/src/garie-lighthouse/reports
+      - /srv/docker/plugins/garie-lighthouse/logs:/usr/src/garie-lighthouse/logs
     depends_on:
       - influxdb
   garie-browsertime:
@@ -29,9 +29,9 @@ services:
       - HOST=influxdb
       - REPORT_DIR
     volumes:
-      - ./garie-config.json:/usr/src/garie-browsertime/config.json
-      - ./plugins/garie-browsertime/reports:/usr/src/garie-browsertime/reports
-      - ./plugins/garie-browsertime/logs:/usr/src/garie-browsertime/logs
+      - /srv/docker/garie-config.json:/usr/src/garie-browsertime/config.json
+      - /srv/docker/plugins/garie-browsertime/reports:/usr/src/garie-browsertime/reports
+      - /srv/docker/plugins/garie-browsertime/logs:/usr/src/garie-browsertime/logs
       - /var/run/docker.sock:/run/docker.sock
       - ${DOCKER_PATH}:/usr/bin/docker
     depends_on:
@@ -44,8 +44,8 @@ services:
       - HOST=influxdb
       - PAGESPEED_INSIGHTS_KEY
     volumes:
-      - ./garie-config.json:/usr/src/garie-pagespeed-insights/config.json
-      - ./plugins/garie-pagespeed-insights/logs:/usr/src/garie-pagespeed-insights/logs
+      - /srv/docker/garie-config.json:/usr/src/garie-pagespeed-insights/config.json
+      - /srv/docker/plugins/garie-pagespeed-insights/logs:/usr/src/garie-pagespeed-insights/logs
     depends_on:
       - influxdb
   grafana:
@@ -55,9 +55,9 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=secret
     volumes:
-      - "./grafana_data:/var/lib/grafana"
-      - "./config/grafana/provisioning:/etc/grafana/provisioning"
-      - "./config/grafana/grafana.ini:/etc/grafana/grafana.ini"
+      - "/srv/docker/grafana_data:/var/lib/grafana"
+      - "/srv/docker/config/grafana/provisioning:/etc/grafana/provisioning"
+      - "/srv/docker/config/grafana/grafana.ini:/etc/grafana/grafana.ini"
     depends_on:
       - influxdb
     user: ${CURRENT_UID}
