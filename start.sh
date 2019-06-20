@@ -22,7 +22,6 @@ curl -o /srv/docker/docker-compose.yml https://raw.githubusercontent.com/ejoc/ga
 curl -o /etc/systemd/system/docker-compose-app.service https://raw.githubusercontent.com/ejoc/garie/master/docker-compose-app.service
 systemctl enable docker-compose-app
 
-start up the application via docker-compose
-Required for garie-browsertime (needs to know where to map reports back too as its docker in docker...)
-
+# start up the application via docker-compose
+# Required for garie-browsertime (needs to know where to map reports back too as its docker in docker...)
 REPORT_DIR=$(pwd)/plugins/garie-browsertime DOCKER_PATH=$(which docker) CURRENT_UID=$(id -u):$(id -g) PAGESPEED_INSIGHTS_KEY=$PAGESPEED_INSIGHTS_KEY docker-compose -f /srv/docker/docker-compose.yml up -d
